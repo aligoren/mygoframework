@@ -22,18 +22,14 @@ func main() {
 
 	app.Get("/user/:id", func(ctx *mygoframework.Context) error {
 
-		ctx.SetStatus(404)
-
-		return ctx.SendString("world 1")
+		return ctx.SetStatus(http.StatusNotFound).SendString("world 1")
 	})
 
 	app.Get("/app/:id", func(ctx *mygoframework.Context) error {
 
-		ctx.SetStatus(http.StatusOK)
-
 		id, _ := ctx.Param("id")
 
-		return ctx.SendJson(mygoframework.J{
+		return ctx.SetStatus(http.StatusOK).SendJson(mygoframework.J{
 			"id":   id,
 			"name": "Ali",
 		})

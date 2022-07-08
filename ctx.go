@@ -10,10 +10,10 @@ type Context struct {
 	response Response
 }
 
-func (ctx *Context) SetStatus(statusCode int) error {
+func (ctx *Context) SetStatus(statusCode int) *Context {
 	ctx.response.WriteHeader(statusCode)
 
-	return nil
+	return ctx
 }
 
 func (ctx *Context) SendString(text string) error {
