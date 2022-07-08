@@ -29,7 +29,7 @@ func main() {
 
 		id, _ := ctx.Param("id")
 
-		return ctx.SetStatus(http.StatusOK).SendJson(mygoframework.J{
+		return ctx.SetStatus(http.StatusBadGateway).SendJson(mygoframework.J{
 			"id":   id,
 			"name": "Ali",
 		})
@@ -55,7 +55,7 @@ func main() {
 			},
 		}
 
-		return ctx.SetStatus(http.StatusOK).SendXml(user)
+		return ctx.SendXml(user)
 	})
 
 	app.Start()

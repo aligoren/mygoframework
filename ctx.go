@@ -39,7 +39,7 @@ func (ctx *Context) SendJson(data interface{}) error {
 
 	ctx.response.Header().Set("Content-Type", "application/json")
 
-	ctx.response.WriteHeader(ctx.statusCode)
+	ctx.response.WriteHeader(ctx.getStatusCode())
 
 	ctx.response.Write(jsonData)
 
@@ -57,7 +57,7 @@ func (ctx *Context) SendXml(data interface{}) error {
 
 	ctx.response.Header().Set("Content-Type", "application/xml")
 
-	ctx.response.WriteHeader(ctx.statusCode)
+	ctx.response.WriteHeader(ctx.getStatusCode())
 
 	ctx.response.Write(xmlData)
 
