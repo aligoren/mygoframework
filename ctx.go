@@ -2,16 +2,23 @@ package mygoframework
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"errors"
+	"log"
 )
 
 type Context struct {
-	request  Request
-	response Response
+	request    Request
+	response   Response
+	statusCode int
 }
 
 func (ctx *Context) SetStatus(statusCode int) *Context {
-	ctx.response.WriteHeader(statusCode)
+	if statusCode == 0 {
+		statusCode = 200
+	}
+
+	ctx.statusCode = statusCode
 
 	return ctx
 }
@@ -30,7 +37,29 @@ func (ctx *Context) SendJson(data interface{}) error {
 		return err
 	}
 
+	ctx.response.Header().Set("Content-Type", "application/json")
+
+	ctx.response.WriteHeader(ctx.statusCode)
+
 	ctx.response.Write(jsonData)
+
+	return nil
+}
+
+func (ctx *Context) SendXml(data interface{}) error {
+
+	xmlData, err := xml.Marshal(data)
+
+	if err != nil {
+		log.Printf("%v", err)
+		return err
+	}
+
+	ctx.response.Header().Set("Content-Type", "application/xml")
+
+	ctx.response.WriteHeader(ctx.statusCode)
+
+	ctx.response.Write(xmlData)
 
 	return nil
 }

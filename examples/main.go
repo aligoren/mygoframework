@@ -25,7 +25,7 @@ func main() {
 		return ctx.SetStatus(http.StatusNotFound).SendString("world 1")
 	})
 
-	app.Get("/app/:id", func(ctx *mygoframework.Context) error {
+	app.Get("/json/:id", func(ctx *mygoframework.Context) error {
 
 		id, _ := ctx.Param("id")
 
@@ -33,6 +33,29 @@ func main() {
 			"id":   id,
 			"name": "Ali",
 		})
+	})
+
+	app.Get("/xml/:id", func(ctx *mygoframework.Context) error {
+
+		id, _ := ctx.Param("id")
+
+		type ExtraData struct {
+			Name string
+		}
+
+		type User struct {
+			ID   string
+			Data ExtraData
+		}
+
+		user := User{
+			ID: id,
+			Data: ExtraData{
+				Name: "Ali",
+			},
+		}
+
+		return ctx.SetStatus(http.StatusOK).SendXml(user)
 	})
 
 	app.Start()
