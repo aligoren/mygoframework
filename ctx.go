@@ -1,6 +1,9 @@
 package mygoframework
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"errors"
+)
 
 type Context struct {
 	request  Request
@@ -30,4 +33,15 @@ func (ctx *Context) SendJson(data interface{}) error {
 	ctx.response.Write(jsonData)
 
 	return nil
+}
+
+func (ctx *Context) Param(key string) (string, error) {
+
+	value, ok := ctx.request.Params().Get(key)
+
+	if !ok {
+		return "", errors.New("params couldn't found")
+	}
+
+	return value, nil
 }

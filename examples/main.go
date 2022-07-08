@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"mygoframework"
+	"net/http"
 )
 
 func main() {
@@ -28,9 +29,12 @@ func main() {
 
 	app.Get("/app/:id", func(ctx *mygoframework.Context) error {
 
-		ctx.SetStatus(404)
+		ctx.SetStatus(http.StatusOK)
+
+		id, _ := ctx.Param("id")
 
 		return ctx.SendJson(mygoframework.J{
+			"id":   id,
 			"name": "Ali",
 		})
 	})
