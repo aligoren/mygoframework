@@ -48,7 +48,7 @@ func (ctx *Context) SendJson(data interface{}) error {
 
 func (ctx *Context) SendXml(data interface{}) error {
 
-	xmlData, err := xml.Marshal(data)
+	xmlData, err := xml.MarshalIndent(data, "", " ")
 
 	if err != nil {
 		log.Printf("%v", err)
